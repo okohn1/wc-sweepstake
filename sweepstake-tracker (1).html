@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Cup 2026 — Office Sweepstake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06120D; --panel:#0B1E16; --panel-2:#0F2A1E; --raise:#123524;
+    --line:#1A3A2C; --line-soft:#15301F;
+    --ink:#EAF3EE; --dim:#7E9A8C; --faint:#506F62;
+    --pitch:#1FE08A; --pitch-deep:#0E9D63;
+    --gold:#F7C948; --amber:#FF9A3D; --coral:#FF5C77; --wood:#C99A5B;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+    padding:28px 18px 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+
+  /* ---------- header ---------- */
+  .top{
+    position:relative;border:1px solid var(--line);border-radius:var(--r);
+    background:
+      repeating-linear-gradient(90deg, rgba(31,224,138,.05) 0 38px, transparent 38px 76px),
+      linear-gradient(180deg,#0E2519,#0A1B12);
+    padding:22px 24px;overflow:hidden;
+  }
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--pitch);font-weight:600}
+  .title{
+    font-family:'Anton',Arial Narrow,sans-serif;font-weight:400;
+    font-size:clamp(34px,6.5vw,60px);line-height:.92;letter-spacing:.01em;
+    text-transform:uppercase;margin:6px 0 0;
+  }
+  .title em{font-style:normal;color:var(--pitch)}
+  .metarow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:12px;font-size:12.5px;color:var(--dim)}
+  .live{
+    display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
+    background:rgba(31,224,138,.07);color:var(--pitch);border-radius:999px;
+    padding:5px 11px;font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  }
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--pitch);box-shadow:0 0 0 0 rgba(31,224,138,.55);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,224,138,.5)}70%{box-shadow:0 0 0 7px rgba(31,224,138,0)}100%{box-shadow:0 0 0 0 rgba(31,224,138,0)}}
+
+  /* ---------- section scaffolding ---------- */
+  .lead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:30px 4px 12px;flex-wrap:wrap}
+  .lead h2{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.04em;font-size:19px;margin:0}
+  .lead .hint{font-size:11.5px;color:var(--faint)}
+
+  /* ---------- prize panels (hero) ---------- */
+  .prizes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+  .prize{
+    position:relative;border:1px solid var(--line);border-radius:var(--r);
+    background:var(--panel);padding:18px 18px 20px;overflow:hidden;
+    animation:rise .55s both;
+  }
+  .prize::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
+  .prize.gold::before{background:var(--gold)}
+  .prize.amber::before{background:var(--amber)}
+  .prize.wood::before{background:var(--wood)}
+  .prize .tag{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .prize .big{font-family:'Anton',sans-serif;font-size:40px;line-height:1;margin:8px 0 4px;text-transform:uppercase}
+  .prize.gold .big{color:var(--gold)} .prize.amber .big{color:var(--amber)} .prize.wood .big{color:var(--wood)}
+  .prize .desc{font-size:12.5px;color:var(--dim);min-height:34px}
+  .prize hr{border:none;border-top:1px solid var(--line-soft);margin:14px 0 11px}
+  .prize .holderlab{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .prize .holder{font-family:'Anton',sans-serif;font-size:21px;letter-spacing:.01em;margin-top:3px;display:flex;align-items:center;gap:8px;line-height:1.05}
+  .prize .holder.tbd{color:var(--faint);font-family:'Inter',sans-serif;font-weight:600;font-size:15px;letter-spacing:0}
+  .prize .holdsub{font-size:11.5px;color:var(--faint);margin-top:3px}
+
+  /* ---------- standings ---------- */
+  .sortbtns{display:flex;gap:6px}
+  .sortbtns button{
+    font:inherit;font-size:11.5px;font-weight:600;color:var(--dim);
+    background:transparent;border:1px solid var(--line);border-radius:999px;
+    padding:5px 11px;cursor:pointer;transition:.15s;letter-spacing:.01em;
+  }
+  .sortbtns button:hover{color:var(--ink);border-color:var(--pitch-deep)}
+  .sortbtns button[aria-pressed="true"]{background:var(--pitch);color:#05130C;border-color:var(--pitch)}
+
+  .board{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:660px}
+  thead th{
+    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;
+    text-align:right;padding:12px 8px;border-bottom:1px solid var(--line);background:#0A1C13;white-space:nowrap;
+  }
+  thead th.l{text-align:left}
+  tbody td{padding:11px 8px;border-bottom:1px solid var(--line-soft);font-size:13.5px;text-align:right;vertical-align:middle}
+  .num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+  tr.mgr{cursor:pointer;transition:background .14s}
+  tr.mgr:hover{background:#0E2519}
+  tr.mgr:last-of-type td{border-bottom:none}
+  .rank{font-family:'Anton',sans-serif;font-size:21px;color:var(--dim);width:34px;text-align:center !important}
+  .mgrcell{text-align:left !important}
+  .mname{font-weight:600;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .squad{display:flex;gap:3px;margin-top:5px}
+  .flag{width:21px;height:15px;border-radius:2.5px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.1);display:block}
+  .flag.dead{filter:grayscale(1) brightness(.5)}
+  .flag-broken{display:none}
+  .pts{font-family:'Anton',sans-serif;font-size:22px;color:var(--ink);width:48px}
+  .gd.pos{color:var(--pitch)} .gd.neg{color:var(--coral)}
+  .alive{display:inline-flex;gap:4px;justify-content:flex-end}
+  .pip{width:8px;height:8px;border-radius:50%;background:var(--pitch);box-shadow:0 0 5px rgba(31,224,138,.5)}
+  .pip.out{background:#234034;box-shadow:none}
+  .youtag{font-size:9.5px;font-weight:700;letter-spacing:.08em;color:#05130C;background:var(--pitch);border-radius:4px;padding:2px 6px}
+  tr.mgr.you{box-shadow:inset 3px 0 0 var(--pitch)}
+  tr.mgr.you .mgrcell{padding-left:10px}
+  .chev{color:var(--faint);font-size:11px;margin-left:2px;transition:transform .2s}
+  tr.mgr.open .chev{transform:rotate(90deg);color:var(--pitch)}
+
+  /* detail */
+  tr.detail{display:none}
+  tr.detail.open{display:table-row}
+  tr.detail td{padding:0;border-bottom:1px solid var(--line-soft);background:#081710}
+  .teams{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 16px 16px}
+  .tcard{border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;background:var(--panel)}
+  .tcard .th{display:flex;align-items:center;gap:8px}
+  .tcard .tn{font-weight:600;font-size:13px}
+  .tcard .grp{font-size:10px;color:var(--faint);font-weight:600;letter-spacing:.08em;border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-left:auto}
+  .tcard.dead .tn{color:var(--faint);text-decoration:line-through}
+  .outtag{font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--coral);border:1px solid rgba(255,92,119,.4);border-radius:5px;padding:1px 6px;margin-left:auto}
+  .results{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+  .mchip{font-size:11.5px;color:var(--dim);display:flex;align-items:center;gap:7px}
+  .mchip .res{font-family:'IBM Plex Mono',monospace;font-weight:600;width:14px;text-align:center;border-radius:3px}
+  .res.W{color:var(--pitch)} .res.L{color:var(--coral)} .res.D{color:var(--gold)}
+  .mchip .sc{font-family:'IBM Plex Mono',monospace;color:var(--ink)}
+  .noplay{font-size:11.5px;color:var(--faint);font-style:italic;margin-top:8px}
+
+  /* ---------- wooden-spoon race ---------- */
+  .bars{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:8px 16px}
+  .brow{display:grid;grid-template-columns:120px 1fr 30px;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+  .brow:last-child{border-bottom:none}
+  .bname{font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brow.leak .bname{color:var(--ink);font-weight:600}
+  .track{height:14px;background:#0A1C13;border-radius:7px;overflow:hidden}
+  .fill{height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#7E9A8C,#52776A);transition:width .8s cubic-bezier(.22,.7,.3,1)}
+  .brow.leak .fill{background:linear-gradient(90deg,#E5C07A,var(--wood))}
+  .bval{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right;color:var(--dim)}
+  .brow.leak .bval{color:var(--wood);font-weight:600}
+  .leaktag{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--wood);margin-left:8px}
+
+  /* ---------- results ---------- */
+  .rlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+  .rcard{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:12px 14px;display:flex;align-items:center;gap:10px}
+  .rscore{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+  .rteam{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+  .rteam.away{flex-direction:row-reverse;text-align:right}
+  .rteam .rn{font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rsc{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;letter-spacing:.04em;color:var(--ink);white-space:nowrap}
+  .rmeta{font-size:9.5px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-left:1px solid var(--line);padding-left:10px;white-space:nowrap}
+  .win{color:var(--pitch)}
+
+  /* ---------- group tables ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:-2px 4px 14px;font-size:11px;color:var(--dim)}
+  .legend span{display:inline-flex;align-items:center}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+  .legend .lg-q i{background:var(--pitch)} .legend .lg-q3 i{background:var(--gold)} .legend .lg-out i{background:#2C4B3C}
+  .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .gcard{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+  .ghead{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line);background:#0A1C13}
+  .glabel{font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+  .gcols{display:flex}
+  .gcols span{width:28px;text-align:right;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .grow{display:grid;grid-template-columns:18px 21px 1fr 28px 28px 28px;align-items:center;gap:7px;padding:8px 12px;border-bottom:1px solid var(--line-soft);position:relative}
+  .grow:last-child{border-bottom:none}
+  .gpos{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);text-align:center}
+  .grow.q .gpos{color:var(--pitch)} .grow.q3 .gpos{color:var(--gold)} .grow.out .gpos{color:var(--coral)}
+  .grow.q::before,.grow.q3::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+  .grow.q::before{background:var(--pitch)} .grow.q3::before{background:var(--gold)}
+  .grow.out{opacity:.6}
+  .gname{font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px;min-width:0}
+  .own{font-size:9px;color:var(--faint);background:#0E2519;border:1px solid var(--line-soft);border-radius:4px;padding:1px 5px;white-space:nowrap;flex-shrink:0;max-width:96px;overflow:hidden;text-overflow:ellipsis}
+  .gst{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;color:var(--dim)}
+  .gpts{color:var(--ink);font-weight:600}
+
+  /* ---------- footer ---------- */
+  .foot{margin-top:26px;font-size:11.5px;color:var(--faint);line-height:1.6;text-align:center;border-top:1px solid var(--line-soft);padding-top:18px}
+  .foot b{color:var(--dim);font-weight:600}
+
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .prize:nth-child(2){animation-delay:.07s}
+  .prize:nth-child(3){animation-delay:.14s}
+
+  @media (max-width:980px){.groups{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:720px){
+    .prizes{grid-template-columns:1fr}
+    .teams{grid-template-columns:1fr}
+    .brow{grid-template-columns:96px 1fr 26px}
+  }
+  @media (max-width:560px){.groups{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+    .fill{transition:none}
+  }
+  :focus-visible{outline:2px solid var(--pitch);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">FIFA World Cup 2026 · USA · Canada · Mexico</div>
+    <h1 class="title">Office <em>Sweepstake</em></h1>
+    <div class="metarow">
+      <span class="live"><span class="dot"></span>Live</span>
+      <span id="meta-stage"></span>
+      <span>Updated <span id="meta-updated"></span></span>
+      <span>Ask Claude to refresh the scores and this repopulates.</span>
+    </div>
+  </header>
+
+  <!-- HERO: the stakes -->
+  <div class="lead"><h2>What's on the line</h2></div>
+  <div class="prizes">
+    <div class="prize gold">
+      <div class="tag">The pot</div>
+      <div class="big">£100</div>
+      <div class="desc">Goes to whoever owns the team that lifts the trophy.</div>
+      <hr>
+      <div class="holderlab">Champion</div>
+      <div id="prize-winner"></div>
+    </div>
+    <div class="prize amber">
+      <div class="tag">Forfeit</div>
+      <div class="big">Snacks</div>
+      <div class="desc">First manager to have all four teams knocked out buys the snacks.</div>
+      <hr>
+      <div class="holderlab">On the hook</div>
+      <div id="prize-snacks"></div>
+    </div>
+    <div class="prize wood">
+      <div class="tag">Wooden spoon</div>
+      <div class="big">Lunch</div>
+      <div class="desc">Leakiest defence in the group stage takes the wooden spoon — and earns the right to pick the lunches.</div>
+      <hr>
+      <div class="holderlab">Holding the spoon</div>
+      <div id="prize-lunch"></div>
+    </div>
+  </div>
+
+  <!-- STANDINGS -->
+  <div class="lead">
+    <h2>Standings</h2>
+    <div class="sortbtns" id="sortbtns">
+      <button data-sort="pts" aria-pressed="true">Points</button>
+      <button data-sort="conceded" aria-pressed="false">Conceded</button>
+      <button data-sort="name" aria-pressed="false">A–Z</button>
+    </div>
+  </div>
+  <div class="board"><div class="scroll">
+    <table>
+      <thead><tr>
+        <th class="rank" style="text-align:center">#</th>
+        <th class="l">Manager</th>
+        <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th>
+        <th>Pts</th><th>Alive</th>
+      </tr></thead>
+      <tbody id="board-body"></tbody>
+    </table>
+  </div></div>
+
+  <!-- WOODEN-SPOON RACE -->
+  <div class="lead"><h2>Wooden-spoon race</h2><span class="hint">Group-stage goals conceded · leakiest defence wins the spoon</span></div>
+  <div class="bars" id="bars"></div>
+
+  <!-- RESULTS -->
+  <div class="lead"><h2>Results in</h2></div>
+  <div class="rlist" id="rlist"></div>
+
+  <!-- WORLD CUP GROUP TABLES -->
+  <div class="lead"><h2>World Cup group tables</h2><span class="hint">Top 2 advance · 8 best third-placed teams join them</span></div>
+  <div class="legend">
+    <span class="lg-q"><i></i>Through (top 2)</span>
+    <span class="lg-q3"><i></i>Third-place race</span>
+    <span class="lg-out"><i></i>Bottom</span>
+  </div>
+  <div class="groups" id="groups"></div>
+
+  <div class="foot">
+    Everything here is computed from the match results. <b>Knockout stages begin 28 June</b> — the snacks and £100 lanes light up once teams start going out.<br>
+    Tell Claude the latest scores (or just say “update the sweepstake”) and the table fills itself in.
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   DATA  —  Claude edits the three marked blocks below when you ask for
+   an update.  Everything else is calculated automatically.
+   ===================================================================== */
+
+const ISO = {
+  "Mexico":"mx","Czechia":"cz","South Korea":"kr","South Africa":"za",
+  "Bosnia":"ba","Canada":"ca","Qatar":"qa","Switzerland":"ch",
+  "Brazil":"br","Haiti":"ht","Morocco":"ma","Scotland":"gb-sct",
+  "Australia":"au","Paraguay":"py","Türkiye":"tr","USA":"us",
+  "Curaçao":"cw","Ecuador":"ec","Germany":"de","Ivory Coast":"ci",
+  "Japan":"jp","Netherlands":"nl","Sweden":"se","Tunisia":"tn",
+  "Belgium":"be","Egypt":"eg","Iran":"ir","New Zealand":"nz",
+  "Cape Verde":"cv","Saudi Arabia":"sa","Spain":"es","Uruguay":"uy",
+  "France":"fr","Iraq":"iq","Norway":"no","Senegal":"sn",
+  "Algeria":"dz","Argentina":"ar","Austria":"at","Jordan":"jo",
+  "Colombia":"co","DR Congo":"cd","Portugal":"pt","Uzbekistan":"uz",
+  "Croatia":"hr","England":"gb-eng","Ghana":"gh","Panama":"pa"
+};
+const GROUP = {
+  "Mexico":"A","Czechia":"A","South Korea":"A","South Africa":"A",
+  "Bosnia":"B","Canada":"B","Qatar":"B","Switzerland":"B",
+  "Brazil":"C","Haiti":"C","Morocco":"C","Scotland":"C",
+  "Australia":"D","Paraguay":"D","Türkiye":"D","USA":"D",
+  "Curaçao":"E","Ecuador":"E","Germany":"E","Ivory Coast":"E",
+  "Japan":"F","Netherlands":"F","Sweden":"F","Tunisia":"F",
+  "Belgium":"G","Egypt":"G","Iran":"G","New Zealand":"G",
+  "Cape Verde":"H","Saudi Arabia":"H","Spain":"H","Uruguay":"H",
+  "France":"I","Iraq":"I","Norway":"I","Senegal":"I",
+  "Algeria":"J","Argentina":"J","Austria":"J","Jordan":"J",
+  "Colombia":"K","DR Congo":"K","Portugal":"K","Uzbekistan":"K",
+  "Croatia":"L","England":"L","Ghana":"L","Panama":"L"
+};
+
+const PLAYERS = [
+  ["Ollybekistan", ["Ghana","Uzbekistan","Scotland","Haiti"], true],
+  ["Dibs",         ["France","Croatia","Czechia","Canada"]],
+  ["CuraKal",      ["Australia","Curaçao","Egypt","Iran"]],
+  ["SweBen",       ["Ecuador","Sweden","Belgium","Colombia"]],
+  ["Josh",         ["Spain","England","Uruguay","Paraguay"]],
+  ["Claragentina", ["Portugal","Panama","Argentina","Morocco"]],
+  ["Cape Alan",    ["Cape Verde","Senegal","Japan","Mexico"]],
+  ["New Steveland",["Brazil","Bosnia","New Zealand","South Korea"]],
+  ["Brad",         ["Netherlands","Norway","Ivory Coast","Türkiye"]],
+  ["GOS",          ["Austria","Switzerland","Germany","USA"]]
+];
+
+/* ---- BLOCK 1: match results --------------------------------------- */
+/*  [home, homeGoals, away, awayGoals, "Group", "stage"]  stage optional */
+const RESULTS = [
+  ["Mexico", 2, "South Africa", 0, "A"],
+  ["South Korea", 2, "Czechia", 1, "A"]
+];
+
+/* ---- BLOCK 2: teams eliminated, in the order they go out ---------- */
+const KNOCKED_OUT = [];
+
+/* ---- BLOCK 3: champion (set after the final) ---------------------- */
+const CHAMPION = null;
+
+const STAGE_LABEL = "Matchday 1 · Group stage";
+const LAST_UPDATED = "12 Jun 2026";
+
+/* =====================================================================
+   ENGINE
+   ===================================================================== */
+function teamRecord(team){
+  const r={P:0,W:0,D:0,L:0,GF:0,GA:0,groupGA:0,matches:[]};
+  for(const m of RESULTS){
+    const h=m[0],hg=m[1],a=m[2],ag=m[3],grp=m[4],stage=m[5]||"group";
+    let gf,ga,opp;
+    if(h===team){gf=hg;ga=ag;opp=a;}
+    else if(a===team){gf=ag;ga=hg;opp=h;}
+    else continue;
+    r.P++;r.GF+=gf;r.GA+=ga;if(stage==="group")r.groupGA+=ga;
+    const res=gf>ga?"W":gf<ga?"L":"D";
+    r[res]++;r.matches.push({opp,gf,ga,res,grp,stage});
+  }
+  r.GD=r.GF-r.GA;r.Pts=r.W*3+r.D;return r;
+}
+function playerData(p){
+  const name=p[0],teams=p[1],isYou=p[2]||false;
+  const d={name,isYou,teams:[],P:0,W:0,D:0,L:0,GF:0,GA:0,groupGA:0,Pts:0,alive:0};
+  for(const t of teams){
+    const rec=teamRecord(t),out=KNOCKED_OUT.includes(t);
+    if(!out)d.alive++;
+    d.P+=rec.P;d.W+=rec.W;d.D+=rec.D;d.L+=rec.L;d.GF+=rec.GF;d.GA+=rec.GA;d.groupGA+=rec.groupGA;d.Pts+=rec.Pts;
+    d.teams.push({name:t,iso:ISO[t],grp:GROUP[t],rec,out});
+  }
+  d.GD=d.GF-d.GA;return d;
+}
+const DATA=PLAYERS.map(playerData);
+
+const OWNER={};
+PLAYERS.forEach(p=>p[1].forEach(t=>OWNER[t]=p[0]));
+
+function flag(iso,cls){return `<img class="flag${cls||""}" src="https://flagcdn.com/${iso}.svg" alt="" loading="lazy" onerror="this.classList.add('flag-broken')">`;}
+function sortData(mode){
+  const a=[...DATA];
+  if(mode==="conceded")a.sort((x,y)=>y.groupGA-x.groupGA||y.Pts-x.Pts||x.name.localeCompare(y.name));
+  else if(mode==="name")a.sort((x,y)=>x.name.localeCompare(y.name));
+  else a.sort((x,y)=>y.Pts-x.Pts||y.GD-x.GD||y.GF-x.GF||y.alive-x.alive||x.name.localeCompare(y.name));
+  return a;
+}
+
+/* ---------- prizes ---------- */
+function renderPrizes(){
+  const champ=CHAMPION?DATA.find(d=>d.teams.some(t=>t.name===CHAMPION)):null;
+  document.getElementById("prize-winner").innerHTML = champ
+    ? `<div class="holder">${flag(ISO[CHAMPION])}${champ.name}</div><div class="holdsub">Champions: ${CHAMPION}</div>`
+    : `<div class="holder tbd">To be decided</div><div class="holdsub">Tournament in progress</div>`;
+
+  let first=null;
+  for(const d of DATA){
+    const idxs=d.teams.map(t=>KNOCKED_OUT.indexOf(t.name));
+    if(idxs.every(i=>i>=0)){const when=Math.max(...idxs);if(first===null||when<first.when)first={name:d.name,when};}
+  }
+  document.getElementById("prize-snacks").innerHTML = first
+    ? `<div class="holder">${first.name}</div><div class="holdsub">All four teams out</div>`
+    : `<div class="holder tbd">Nobody — yet</div><div class="holdsub">Everyone still has a team alive</div>`;
+
+  const max=Math.max(0,...DATA.map(d=>d.groupGA));
+  const lunch=document.getElementById("prize-lunch");
+  if(max===0){lunch.innerHTML=`<div class="holder tbd">Nothing conceded yet</div><div class="holdsub">No group goals against so far</div>`;}
+  else{
+    const leaders=DATA.filter(d=>d.groupGA===max).map(d=>d.name);
+    lunch.innerHTML=`<div class="holder">${leaders.join(" / ")}</div><div class="holdsub">${max} conceded${leaders.length>1?" (tied)":""} · picks the lunches</div>`;
+  }
+}
+
+/* ---------- standings ---------- */
+let sortMode="pts";
+function renderBoard(){
+  const rows=sortData(sortMode);
+  const body=document.getElementById("board-body");
+  body.innerHTML=rows.map((d,i)=>{
+    const squad=d.teams.map(t=>flag(t.iso,t.out?" dead":"")).join("");
+    const pips=d.teams.map(t=>`<span class="pip${t.out?" out":""}"></span>`).join("");
+    const gdcls=d.GD>0?"pos":d.GD<0?"neg":"";
+    const gd=(d.GD>0?"+":"")+d.GD;
+    const you=d.isYou?`<span class="youtag">YOU</span>`:"";
+
+    const teamCards=d.teams.map(t=>{
+      const r=t.rec;
+      const chips=r.matches.length
+        ? `<div class="results">`+r.matches.map(m=>
+            `<div class="mchip"><span class="res ${m.res}">${m.res}</span><span class="sc">${m.gf}–${m.ga}</span><span>v ${m.opp}</span>${m.stage!=="group"?`<span style="color:var(--faint);font-size:10px">(KO)</span>`:""}</div>`).join("")+`</div>`
+        : `<div class="noplay">Yet to play</div>`;
+      return `<div class="tcard${t.out?" dead":""}">
+        <div class="th">${flag(t.iso)}<span class="tn">${t.name}</span>${t.out?`<span class="outtag">OUT</span>`:`<span class="grp">Grp ${t.grp}</span>`}</div>
+        ${chips}</div>`;
+    }).join("");
+
+    return `<tr class="mgr${d.isYou?" you":""}" data-i="${i}">
+        <td class="rank">${i+1}</td>
+        <td class="mgrcell"><div class="mname">${d.name}${you}<span class="chev">▶</span></div><div class="squad">${squad}</div></td>
+        <td class="num">${d.P}</td><td class="num">${d.W}</td><td class="num">${d.D}</td><td class="num">${d.L}</td>
+        <td class="num">${d.GF}</td><td class="num">${d.GA}</td><td class="num gd ${gdcls}">${gd}</td>
+        <td class="pts">${d.Pts}</td>
+        <td><span class="alive">${pips}</span></td>
+      </tr>
+      <tr class="detail" data-d="${i}"><td colspan="11"><div class="teams">${teamCards}</div></td></tr>`;
+  }).join("");
+
+  body.querySelectorAll("tr.mgr").forEach(row=>{
+    row.addEventListener("click",()=>{
+      const det=row.nextElementSibling;
+      const open=det.classList.toggle("open");
+      row.classList.toggle("open",open);
+    });
+  });
+}
+
+/* ---------- wooden-spoon bars ---------- */
+function renderBars(){
+  const order=[...DATA].sort((a,b)=>b.groupGA-a.groupGA||a.name.localeCompare(b.name));
+  const max=Math.max(1,...DATA.map(d=>d.groupGA));
+  const top=Math.max(0,...DATA.map(d=>d.groupGA));
+  const el=document.getElementById("bars");
+  el.innerHTML=order.map(d=>{
+    const leak=top>0&&d.groupGA===top;
+    return `<div class="brow${leak?" leak":""}">
+      <div class="bname">${d.name}${leak?`<span class="leaktag">WOODEN SPOON</span>`:""}</div>
+      <div class="track"><div class="fill" data-w="${(d.groupGA/max)*100}"></div></div>
+      <div class="bval">${d.groupGA}</div></div>`;
+  }).join("");
+  requestAnimationFrame(()=>el.querySelectorAll(".fill").forEach(f=>{f.style.width=f.dataset.w+"%";}));
+}
+
+/* ---------- results ---------- */
+function renderResults(){
+  const el=document.getElementById("rlist");
+  if(!RESULTS.length){el.innerHTML=`<div class="rcard" style="color:var(--faint)">No matches played yet — kick-off is imminent.</div>`;return;}
+  el.innerHTML=[...RESULTS].reverse().map(m=>{
+    const h=m[0],hg=m[1],a=m[2],ag=m[3],grp=m[4];
+    const hw=hg>ag,aw=ag>hg;
+    return `<div class="rcard"><div class="rscore">
+        <div class="rteam">${flag(ISO[h]||"xx")}<span class="rn ${hw?"win":""}">${h}</span></div>
+        <span class="rsc">${hg}–${ag}</span>
+        <div class="rteam away">${flag(ISO[a]||"xx")}<span class="rn ${aw?"win":""}">${a}</span></div>
+      </div><div class="rmeta">Grp ${grp}</div></div>`;
+  }).join("");
+}
+
+/* ---------- world cup group tables ---------- */
+function renderGroups(){
+  const letters="ABCDEFGHIJKL".split("");
+  const byGroup={};letters.forEach(L=>byGroup[L]=[]);
+  Object.keys(GROUP).forEach(t=>{if(byGroup[GROUP[t]])byGroup[GROUP[t]].push(t);});
+  const el=document.getElementById("groups");
+  el.innerHTML=letters.map(L=>{
+    const teams=byGroup[L].map(t=>({name:t,iso:ISO[t],r:teamRecord(t),owner:OWNER[t]}));
+    const played=teams.reduce((s,t)=>s+t.r.P,0);
+    teams.sort((a,b)=>b.r.Pts-a.r.Pts||b.r.GD-a.r.GD||b.r.GF-a.r.GF||a.name.localeCompare(b.name));
+    const rows=teams.map((t,i)=>{
+      const pos=i+1;
+      let zone="";
+      if(played>0)zone=pos<=2?"q":(pos===3?"q3":"out");
+      const gd=(t.r.GD>0?"+":"")+t.r.GD;
+      const own=t.owner?`<span class="own">${t.owner}</span>`:"";
+      return `<div class="grow ${zone}">
+        <span class="gpos">${pos}</span>${flag(t.iso)}
+        <span class="gname">${t.name}${own}</span>
+        <span class="gst">${t.r.P}</span><span class="gst">${gd}</span><span class="gst gpts">${t.r.Pts}</span>
+      </div>`;
+    }).join("");
+    return `<div class="gcard"><div class="ghead"><span class="glabel">Group ${L}</span><span class="gcols"><span>P</span><span>GD</span><span>Pts</span></span></div>${rows}</div>`;
+  }).join("");
+}
+
+/* ---------- init ---------- */
+document.getElementById("meta-stage").textContent=STAGE_LABEL;
+document.getElementById("meta-updated").textContent=LAST_UPDATED;
+renderPrizes();renderBoard();renderBars();renderResults();renderGroups();
+
+document.getElementById("sortbtns").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  sortMode=b.dataset.sort;
+  document.querySelectorAll("#sortbtns button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  renderBoard();
+});
+</script>
+</body>
+</html>
