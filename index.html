@@ -204,6 +204,28 @@
     .fill{transition:none}
   }
   :focus-visible{outline:2px solid var(--pitch);outline-offset:2px;border-radius:4px}
+
+  /* ---------- knockout bracket ---------- */
+  .bracket-scroll{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;padding-bottom:24px}
+  .bracket{position:relative;display:flex;flex-direction:column;min-width:max-content}
+  .bracket .round-labels{display:flex;gap:30px;margin-bottom:10px}
+  .bracket .round-label{width:180px;flex-shrink:0;text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--faint)}
+  .bracket-body{position:relative;display:flex;gap:30px;height:1600px}
+  .bracket-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .round-col{position:relative;width:180px;flex-shrink:0;height:100%}
+  .br-slot{position:absolute;left:0;width:100%}
+  .br-card{width:180px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .br-date{font-size:10px;color:var(--faint);text-align:center;padding:4px 8px 3px;background:var(--panel-2);border-bottom:1px solid var(--line-soft);letter-spacing:.3px}
+  .br-team{display:flex;align-items:center;gap:7px;padding:6px 10px;font-size:12px;font-weight:500;color:var(--dim);border-bottom:1px solid var(--line-soft)}
+  .br-team:last-child{border-bottom:none}
+  .br-team.tbd{color:var(--faint);font-style:italic}
+  .br-team.winner{color:var(--ink);font-weight:700;background:var(--raise)}
+  .br-team.loser{color:var(--faint);opacity:.7}
+  .br-flag{width:20px;height:14px;object-fit:cover;border-radius:2px;flex-shrink:0;display:block}
+  .br-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .br-score{font-weight:700;font-size:13px;min-width:14px;text-align:right;flex-shrink:0}
+  .br-team.winner .br-score{color:var(--pitch)}
+  .br-team.loser .br-score{color:var(--faint)}
 </style>
 </head>
 <body>
@@ -287,8 +309,66 @@
   </div>
   <div class="groups" id="groups"></div>
 
+  <!-- KNOCKOUT BRACKET -->
+  <div class="lead"><h2>Knockout bracket</h2><span class="hint">Full path from Round of 32 to the Final</span></div>
+  <div class="bracket-scroll">
+    <div class="bracket">
+      <div class="round-labels">
+        <div class="round-label">Round of 32</div>
+        <div class="round-label">Round of 16</div>
+        <div class="round-label">Quarter-finals</div>
+        <div class="round-label">Semi-finals</div>
+        <div class="round-label">Final</div>
+      </div>
+      <div class="bracket-body" id="bracket-body">
+        <svg class="bracket-svg" id="bracket-svg"></svg>
+        <div class="round-col" id="br-r32">
+          <div class="br-slot" data-match="r32-1"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-2"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-3"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-4"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-5"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-6"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-7"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-8"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-9"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-10"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-11"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-12"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-13"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-14"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-15"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r32-16"><div class="br-card"></div></div>
+        </div>
+        <div class="round-col" id="br-r16">
+          <div class="br-slot" data-match="r16-1"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-2"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-3"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-4"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-5"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-6"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-7"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="r16-8"><div class="br-card"></div></div>
+        </div>
+        <div class="round-col" id="br-qf">
+          <div class="br-slot" data-match="qf-1"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="qf-2"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="qf-3"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="qf-4"><div class="br-card"></div></div>
+        </div>
+        <div class="round-col" id="br-sf">
+          <div class="br-slot" data-match="sf-1"><div class="br-card"></div></div>
+          <div class="br-slot" data-match="sf-2"><div class="br-card"></div></div>
+        </div>
+        <div class="round-col" id="br-final">
+          <div class="br-slot" data-match="final-1"><div class="br-card"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="foot">
-    Everything here is computed from the match results. <b>Knockout stages begin 28 June</b> — the snacks and £100 lanes light up once teams start going out.<br>
+    Everything here is computed from the match results. Knockout stages are under way — the snacks and £100 lanes light up once teams start going out.<br>
     Tell Claude the latest scores (or just say "update the sweepstake") and the table fills itself in.
   </div>
 
@@ -435,6 +515,51 @@ const CHAMPION = null;
 
 const STAGE_LABEL = "Round of 32 · Knockout stage";
 const LAST_UPDATED = "29 Jun 2026";
+
+/* ---- BLOCK 4: knockout bracket structure (auto-populates from RESULTS) --- */
+const KO_BRACKET = [
+  {id:"r32-1",  t1:"Canada",      t2:"South Africa", date:"28 Jun"},
+  {id:"r32-2",  t1:"Netherlands", t2:"Morocco",       date:"29 Jun"},
+  {id:"r32-3",  t1:"Germany",     t2:"Paraguay",      date:"29 Jun"},
+  {id:"r32-4",  t1:"France",      t2:"Sweden",        date:"30 Jun"},
+  {id:"r32-5",  t1:"Brazil",      t2:"Japan",         date:"29 Jun"},
+  {id:"r32-6",  t1:"Ivory Coast", t2:"Norway",        date:"30 Jun"},
+  {id:"r32-7",  t1:"Mexico",      t2:"Ecuador",       date:"30 Jun"},
+  {id:"r32-8",  t1:"England",     t2:"DR Congo",      date:"1 Jul"},
+  {id:"r32-9",  t1:"Belgium",     t2:"Senegal",       date:"1 Jul"},
+  {id:"r32-10", t1:"USA",         t2:"Bosnia",        date:"1 Jul"},
+  {id:"r32-11", t1:"Australia",   t2:"Egypt",         date:"3 Jul"},
+  {id:"r32-12", t1:"Argentina",   t2:"Cape Verde",    date:"3 Jul"},
+  {id:"r32-13", t1:"Spain",       t2:"Austria",       date:"2 Jul"},
+  {id:"r32-14", t1:"Portugal",    t2:"Croatia",       date:"2 Jul"},
+  {id:"r32-15", t1:"Switzerland", t2:"Algeria",       date:"2 Jul"},
+  {id:"r32-16", t1:"Colombia",    t2:"Ghana",         date:"3 Jul"},
+  {id:"r16-1",  t1:null, t2:null, date:"4 Jul"},
+  {id:"r16-2",  t1:null, t2:null, date:"4 Jul"},
+  {id:"r16-3",  t1:null, t2:null, date:"5 Jul"},
+  {id:"r16-4",  t1:null, t2:null, date:"5 Jul"},
+  {id:"r16-5",  t1:null, t2:null, date:"6 Jul"},
+  {id:"r16-6",  t1:null, t2:null, date:"7 Jul"},
+  {id:"r16-7",  t1:null, t2:null, date:"6 Jul"},
+  {id:"r16-8",  t1:null, t2:null, date:"7 Jul"},
+  {id:"qf-1",   t1:null, t2:null, date:"11 Jul"},
+  {id:"qf-2",   t1:null, t2:null, date:"11 Jul"},
+  {id:"qf-3",   t1:null, t2:null, date:"12 Jul"},
+  {id:"qf-4",   t1:null, t2:null, date:"12 Jul"},
+  {id:"sf-1",   t1:null, t2:null, date:"15 Jul"},
+  {id:"sf-2",   t1:null, t2:null, date:"16 Jul"},
+  {id:"final-1",t1:null, t2:null, date:"19 Jul"},
+];
+const KO_PAIRS = [
+  ["r32-1","r32-2","r16-1"],  ["r32-3","r32-4","r16-2"],
+  ["r32-5","r32-6","r16-3"],  ["r32-7","r32-8","r16-4"],
+  ["r32-9","r32-10","r16-5"], ["r32-11","r32-12","r16-6"],
+  ["r32-13","r32-14","r16-7"],["r32-15","r32-16","r16-8"],
+  ["r16-1","r16-2","qf-1"],   ["r16-3","r16-4","qf-2"],
+  ["r16-5","r16-6","qf-3"],   ["r16-7","r16-8","qf-4"],
+  ["qf-1","qf-2","sf-1"],     ["qf-3","qf-4","sf-2"],
+  ["sf-1","sf-2","final-1"],
+];
 
 /* =====================================================================
    ENGINE
@@ -603,10 +728,73 @@ function renderGroups(){
   }).join("");
 }
 
+/* ---------- bracket ---------- */
+function buildBracket(){
+  const byId=Object.fromEntries(KO_BRACKET.map(m=>[m.id,m]));
+  KO_BRACKET.forEach(m=>{m.s1=null;m.s2=null;if(!m.id.startsWith("r32")){m.t1=null;m.t2=null;}});
+  function lookup(m){
+    if(!m.t1||!m.t2)return;
+    const res=RESULTS.find(r=>r[5]==="ko"&&((r[0]===m.t1&&r[2]===m.t2)||(r[0]===m.t2&&r[2]===m.t1)));
+    if(res){m.s1=res[0]===m.t1?res[1]:res[3];m.s2=res[0]===m.t1?res[3]:res[1];}
+  }
+  KO_BRACKET.filter(m=>m.id.startsWith("r32")).forEach(lookup);
+  function winner(m){return m&&m.t1&&m.t2&&m.s1!==null?m.s1>m.s2?m.t1:m.t2:null;}
+  KO_PAIRS.forEach(([tId,bId,dId])=>{
+    const dst=byId[dId];
+    dst.t1=winner(byId[tId]);dst.t2=winner(byId[bId]);
+    lookup(dst);
+  });
+}
+function renderMatchCard(m){
+  const isFinal=m.id==="final-1",played=m.s1!==null,w1=played&&m.s1>m.s2,w2=played&&m.s2>m.s1;
+  function row(team,score,win,lose){
+    if(!team)return`<div class="br-team tbd"><span class="br-name">TBD</span></div>`;
+    const iso=ISO[team]||"",cls=win?" winner":lose?" loser":"";
+    return`<div class="br-team${cls}">${iso?`<img class="br-flag" src="https://flagcdn.com/${iso}.svg" alt="">`:""}<span class="br-name">${team}</span>${played?`<span class="br-score">${score}</span>`:""}</div>`;
+  }
+  const ds=isFinal?` style="color:var(--gold);background:rgba(247,201,72,.08)"`:"";
+  return`<div class="br-date"${ds}>${isFinal?"Final · ":""}${m.date}</div>${row(m.t1,m.s1,w1,w2)}${row(m.t2,m.s2,w2,w1)}`;
+}
+function renderBracket(){
+  buildBracket();
+  const body=document.getElementById("bracket-body");if(!body)return;
+  const H=1600;
+  [["br-r32",16],["br-r16",8],["br-qf",4],["br-sf",2],["br-final",1]].forEach(([colId,n])=>{
+    const col=document.getElementById(colId);if(!col)return;
+    const slotH=H/n;
+    Array.from(col.querySelectorAll(".br-slot")).forEach((slot,i)=>{
+      slot.style.top=(i*slotH+slotH/2)+"px";
+      slot.style.transform="translateY(-50%)";
+      const m=KO_BRACKET.find(x=>x.id===slot.dataset.match);
+      if(m)slot.querySelector(".br-card").innerHTML=renderMatchCard(m);
+    });
+  });
+  drawBracketLines();
+}
+function drawBracketLines(){
+  const svg=document.getElementById("bracket-svg"),body=document.getElementById("bracket-body");
+  if(!svg||!body)return;
+  svg.innerHTML="";
+  const bodyR=body.getBoundingClientRect();
+  const slots={};
+  document.querySelectorAll(".br-slot[data-match]").forEach(el=>{slots[el.dataset.match]=el;});
+  function mr(slot){const r=slot.querySelector(".br-card").getBoundingClientRect();return{x:r.right-bodyR.left,y:(r.top+r.bottom)/2-bodyR.top};}
+  function ml(slot){const r=slot.querySelector(".br-card").getBoundingClientRect();return{x:r.left-bodyR.left,y:(r.top+r.bottom)/2-bodyR.top};}
+  KO_PAIRS.forEach(([aKey,bKey,dKey])=>{
+    const sA=slots[aKey],sB=slots[bKey],sD=slots[dKey];if(!sA||!sB||!sD)return;
+    const pA=mr(sA),pB=mr(sB),pD=ml(sD),jx=pA.x+12,jy=(pA.y+pB.y)/2;
+    const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d",`M${pA.x} ${pA.y}H${jx}V${pB.y}M${pB.x} ${pB.y}H${jx}M${jx} ${jy}H${pD.x}`);
+    p.setAttribute("stroke","#1A3A2C");p.setAttribute("stroke-width","1.5");p.setAttribute("fill","none");p.setAttribute("stroke-linecap","round");
+    svg.appendChild(p);
+  });
+}
+let _brTimer;window.addEventListener("resize",()=>{clearTimeout(_brTimer);_brTimer=setTimeout(renderBracket,80);});
+
 /* ---------- init ---------- */
 document.getElementById("meta-stage").textContent=STAGE_LABEL;
 document.getElementById("meta-updated").textContent=LAST_UPDATED;
-renderPrizes();renderBoard();renderBars();renderResults();renderGroups();
+renderPrizes();renderBoard();renderBars();renderResults();renderGroups();renderBracket();
 
 document.getElementById("sortbtns").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
