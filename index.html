@@ -520,7 +520,9 @@ const RESULTS = [
   ["Canada", 0, "Morocco", 3, "ko", "ko"],
   ["Paraguay", 0, "France", 1, "ko", "ko"],
   ["Brazil", 1, "Norway", 2, "ko", "ko"],
-  ["Mexico", 2, "England", 3, "ko", "ko"]
+  ["Mexico", 2, "England", 3, "ko", "ko"],
+  ["Spain", 1, "Portugal", 0, "ko", "ko"],
+  ["Belgium", 4, "USA", 1, "ko", "ko"]
 ];
 
 /* ---- BLOCK 2: teams eliminated, in the order they go out ---------- */
@@ -532,13 +534,14 @@ const KNOCKED_OUT = ["Türkiye", "Tunisia", "Qatar", "Haiti", "Czechia", "Curaç
                      "DR Congo", "Senegal", "Bosnia",
                      "Austria", "Croatia", "Algeria",
                      "Australia", "Cape Verde", "Ghana",
-                     "Canada", "Paraguay", "Brazil", "Mexico"];
+                     "Canada", "Paraguay", "Brazil", "Mexico",
+                     "Portugal", "USA"];
 
 /* ---- BLOCK 3: champion (set after the final) ---------------------- */
 const CHAMPION = null;
 
 const STAGE_LABEL = "Round of 16 · Knockout stage";
-const LAST_UPDATED = "6 Jul 2026";
+const LAST_UPDATED = "7 Jul 2026";
 
 /* ---- BLOCK 4: knockout bracket structure (auto-populates from RESULTS) --- */
 const KO_BRACKET = [
@@ -579,8 +582,8 @@ const KO_PAIRS = [
   ["r32-5","r32-6","r16-3"],  ["r32-7","r32-8","r16-4"],
   ["r32-9","r32-10","r16-5"], ["r32-11","r32-12","r16-6"],
   ["r32-13","r32-14","r16-7"],["r32-15","r32-16","r16-8"],
-  ["r16-1","r16-2","qf-1"],   ["r16-3","r16-4","qf-2"],
-  ["r16-5","r16-6","qf-3"],   ["r16-7","r16-8","qf-4"],
+  ["r16-1","r16-2","qf-1"],   ["r16-7","r16-5","qf-2"],
+  ["r16-3","r16-4","qf-3"],   ["r16-6","r16-8","qf-4"],
   ["qf-1","qf-2","sf-1"],     ["qf-3","qf-4","sf-2"],
   ["sf-1","sf-2","final-1"],
 ];
