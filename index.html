@@ -598,10 +598,11 @@ const KO_PAIRS = [
 /* =====================================================================
    ENGINE
    ===================================================================== */
-function teamRecord(team){
+function teamRecord(team, groupOnly=false){
   const r={P:0,W:0,D:0,L:0,GF:0,GA:0,groupGA:0,matches:[]};
   for(const m of RESULTS){
     const h=m[0],hg=m[1],a=m[2],ag=m[3],grp=m[4],stage=m[5]||"group";
+    if(groupOnly && stage!=="group") continue;
     let gf,ga,opp;
     if(h===team){gf=hg;ga=ag;opp=a;}
     else if(a===team){gf=ag;ga=hg;opp=h;}
@@ -743,7 +744,7 @@ function renderGroups(){
   Object.keys(GROUP).forEach(t=>{if(byGroup[GROUP[t]])byGroup[GROUP[t]].push(t);});
   const el=document.getElementById("groups");
   el.innerHTML=letters.map(L=>{
-    const teams=byGroup[L].map(t=>({name:t,iso:ISO[t],r:teamRecord(t),owner:OWNER[t]}));
+    const teams=byGroup[L].map(t=>({name:t,iso:ISO[t],r:teamRecord(t,true),owner:OWNER[t]}));
     const played=teams.reduce((s,t)=>s+t.r.P,0);
     teams.sort((a,b)=>b.r.Pts-a.r.Pts||b.r.GD-a.r.GD||b.r.GF-a.r.GF||a.name.localeCompare(b.name));
     const rows=teams.map((t,i)=>{
